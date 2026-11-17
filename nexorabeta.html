@@ -1,0 +1,373 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Nexora — Your space. Your stuff.</title>
+<style>
+:root{--acc:#4f8cff;--r:18px;--blur:22px;--bg:#07070c;--tx:#eceef6;--mu:#8b8fa3;--gl:rgba(255,255,255,.055);--bd:rgba(255,255,255,.1)}
+*{box-sizing:border-box;margin:0}body{background:var(--bg);color:var(--tx);font:15px/1.5 Inter,system-ui,sans-serif;overflow-x:hidden}
+button,input,select,textarea{font:inherit;color:inherit}button{cursor:pointer;background:var(--gl);border:1px solid var(--bd);border-radius:12px;padding:8px 14px;transition:.2s}button:hover{border-color:var(--acc);background:rgba(255,255,255,.09)}
+.pri{background:linear-gradient(135deg,#7c3aed,var(--acc));border:0;font-weight:600}
+input,select,textarea{background:rgba(0,0,0,.35);border:1px solid var(--bd);border-radius:12px;padding:9px 12px;width:100%;outline:0}input:focus,textarea:focus{border-color:var(--acc)}
+.logo{font-weight:800;letter-spacing:.32em;background:linear-gradient(90deg,#fff,#a78bfa,var(--acc));-webkit-background-clip:text;color:transparent}
+.shell{min-height:100vh;background-size:cover;background-attachment:fixed;display:grid;grid-template-columns:84px 1fr;grid-template-rows:64px 1fr;transition:background .6s}
+.top{grid-column:1/3;display:flex;align-items:center;gap:12px;padding:0 20px;backdrop-filter:blur(var(--blur));background:rgba(5,5,10,.45);border-bottom:1px solid var(--bd);position:sticky;top:0;z-index:5}
+.top .sp{flex:1}.srch{max-width:360px;text-align:left;color:var(--mu);flex:1}.bdg{background:#ef4444;border-radius:9px;font-size:11px;padding:0 6px;margin-left:4px}
+.side{padding:16px 0;display:flex;flex-direction:column;gap:10px;align-items:center;border-right:1px solid var(--bd);background:rgba(5,5,10,.3);backdrop-filter:blur(var(--blur))}
+.side button{width:48px;height:48px;padding:0;font-size:20px;border-radius:14px}.side .on,.bn .on{border-color:var(--acc);box-shadow:0 0 18px -4px var(--acc)}
+main{padding:28px;max-width:1300px;width:100%;margin:auto}h1{font-size:26px;margin-bottom:18px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;grid-auto-flow:dense}
+.w{grid-column:span 1;background:var(--gl);border:1px solid var(--bd);border-radius:var(--r);padding:16px;backdrop-filter:blur(var(--blur));min-height:170px;display:flex;flex-direction:column;gap:10px;transition:.25s}
+.w.s2{grid-column:span 2}.w:hover{border-color:rgba(255,255,255,.22);transform:translateY(-2px)}.w.drag{opacity:.4}
+.wh{display:flex;align-items:center;gap:6px;color:var(--mu);font-size:12px;text-transform:uppercase;letter-spacing:.1em;cursor:grab}.wh b{flex:1;font-weight:600}
+.wh button{padding:2px 8px;border:0;background:none}.big{font-size:42px;font-weight:700}.mu{color:var(--mu)}
+.li{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px}.li:hover{background:rgba(255,255,255,.06)}.li a{color:inherit;text-decoration:none;flex:1}.li span{flex:1}
+.x{padding:0 6px!important;border:0!important;background:none!important;color:var(--mu)}
+.empty{margin:auto;text-align:center;color:var(--mu);padding:14px}.empty i{font-size:28px;display:block;font-style:normal}
+.gm{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px}.gm a{display:block;padding:14px;border-radius:14px;background:linear-gradient(145deg,rgba(124,58,237,.35),rgba(79,140,255,.2));text-decoration:none;color:inherit;text-align:center;border:1px solid var(--bd);transition:.2s}.gm a:hover{transform:scale(1.04)}
+.gm a i{font-size:28px;display:block;font-style:normal}
+.ov{position:fixed;inset:0;background:rgba(0,0,0,.6);backdrop-filter:blur(6px);display:flex;align-items:flex-start;justify-content:center;padding:8vh 14px;z-index:20;overflow:auto;animation:f .2s}
+.md{background:rgba(18,18,28,.92);border:1px solid var(--bd);border-radius:22px;padding:22px;width:min(560px,100%);display:flex;flex-direction:column;gap:12px;animation:u .28s cubic-bezier(.2,.8,.2,1)}
+.md h2{font-size:18px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.row button{flex:0 auto}
+.cr{padding:9px 12px;border-radius:10px;cursor:pointer;display:flex;gap:10px}.cr.sel{background:rgba(79,140,255,.2)}.cat{font-size:11px;text-transform:uppercase;color:var(--mu);margin:8px 0 2px;letter-spacing:.1em}
+.opt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.opt button{padding:18px 8px;font-size:15px}
+.sw{height:46px;border-radius:12px;border:2px solid transparent;padding:0}.sw.on{border-color:#fff}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;text-align:center;font-size:12px}.cal div{padding:4px 0;border-radius:8px}.cal .t{background:var(--acc)}.cal .e{box-shadow:inset 0 -3px var(--ec)}
+.bn{display:none}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 20% 10%,#2a1260,transparent 50%),radial-gradient(circle at 80% 90%,#0d2a6b,transparent 50%),#07070c}
+.spin{width:34px;height:34px;border:3px solid var(--bd);border-top-color:var(--acc);border-radius:50%;animation:r 1s linear infinite;margin:auto}
+.err{color:#fca5a5;font-size:13px}.in{animation:u .45s cubic-bezier(.2,.8,.2,1) backwards}
+.owner-badge{background:linear-gradient(135deg,#f59e0b,#ef4444);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:6px;letter-spacing:.05em;margin-left:6px}
+.owner-panel .md{width:min(720px,100%)}
+.owner-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.owner-grid button{text-align:left;padding:12px 14px}
+.owner-grid button b{display:block;font-size:14px}
+.owner-grid button span{display:block;font-size:12px;color:var(--mu);margin-top:2px}
+.danger{color:#fca5a5!important;border-color:rgba(252,165,165,.35)!important}
+.danger:hover{background:rgba(239,68,68,.15)!important;border-color:#fca5a5!important}
+pre.raw{background:rgba(0,0,0,.4);border:1px solid var(--bd);border-radius:12px;padding:12px;font-size:11px;max-height:280px;overflow:auto;white-space:pre-wrap;word-break:break-all}
+@keyframes f{from{opacity:0}}@keyframes u{from{opacity:0;transform:translateY(14px) scale(.98)}}@keyframes r{to{transform:rotate(360deg)}}
+.noanim *{animation:none!important;transition:none!important}@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+@media(max-width:820px){.shell{grid-template-columns:1fr;grid-template-rows:60px 1fr}.side{display:none}.top{grid-column:1}.grid{grid-template-columns:1fr}.w.s2{grid-column:span 1}main{padding:16px 14px 100px}
+.bn{display:flex;position:fixed;bottom:0;left:0;right:0;justify-content:space-around;padding:8px 8px calc(8px + env(safe-area-inset-bottom));background:rgba(8,8,14,.85);backdrop-filter:blur(20px);border-top:1px solid var(--bd);z-index:6}
+.sps{display:flex;gap:8px;overflow-x:auto;margin-bottom:14px;scroll-snap-type:x mandatory}.sps button{white-space:nowrap;scroll-snap-align:start}.opt{grid-template-columns:repeat(2,1fr)}.hm{display:none}
+.owner-grid{grid-template-columns:1fr}}
+@media(min-width:821px){.sps{display:none}}
+</style></head><body><div id="app"><div class="auth"><div class="spin"></div></div></div>
+<script>setTimeout(function(){var a=document.getElementById('app');if(a&&a.querySelector('.spin')&&!window.__nx)a.innerHTML='<div class="auth"><div class="md"><h2>Nexora could not start</h2><p class="err">Firebase scripts did not load or crashed. Open the browser console (F12) for the exact error. Make sure you are online and serving the file over https or localhost.</p></div></div>'},8000);window.addEventListener('error',function(e){console.error(e.message)});</script>
+<script type="module">window.__nx=1;
+import{initializeApp}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+import{getAuth,onAuthStateChanged,signInWithEmailAndPassword,signOut,deleteUser,updateProfile,createUserWithEmailAndPassword,sendPasswordResetEmail,updatePassword,EmailAuthProvider,reauthenticateWithCredential}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+import{getFirestore,doc,getDoc,setDoc,deleteDoc}from"https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+const firebaseConfig={apiKey:"AIzaSyDg8nQxdoVPiYnpwTBW7mpC2V2q9XwuEsU",authDomain:"dadwertghgdhvnbmgvfx.firebaseapp.com",projectId:"dadwertghgdhvnbmgvfx",storageBucket:"dadwertghgdhvnbmgvfx.firebasestorage.app",messagingSenderId:"734452901291",appId:"1:734452901291:web:837d76fdcb794003211eee"};
+const app=initializeApp(firebaseConfig);
+const auth=getAuth(app),db=getFirestore(app);
+/* Secondary app so owner can create users without being signed out */
+const adminApp=initializeApp(firebaseConfig,'admin');
+const adminAuth=getAuth(adminApp);
+const $=s=>document.querySelector(s),esc=s=>String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])),id=()=>Math.random().toString(36).slice(2,9);
+const OWNER_EMAIL='greyson.kurit@gmail.com';
+const isOwner=()=>U&&U.email===OWNER_EMAIL;
+const WALLS={midnight:'linear-gradient(160deg,#07070c,#12102a)',purple:'linear-gradient(160deg,#1b0b3a,#4c1d95 70%,#0b0b14)',blue:'linear-gradient(160deg,#050a1c,#0b2a6b)',cyber:'linear-gradient(135deg,#0a0614,#3b0a6b 50%,#0a3d6b)',aurora:'linear-gradient(160deg,#04121a,#0d5c63 40%,#5b21b6 80%,#07070c)',minimal:'#0c0c10'};
+const WT={welcome:['👋','Welcome',2],clock:['🕒','Clock',1],notes:['📝','Notes',2],todo:['✅','To-do',1],links:['🔖','Bookmarks',1],games:['🎮','Game launcher',2],calendar:['📅','Calendar',2],timer:['⏱️','Timer',1],activity:['⚡','Activity',1],stats:['📊','Statistics',1]};
+const mk=(t)=>({id:id(),type:t,w:WT[t][2]});
+const TPL={Gaming:['🎮',['welcome','clock','games','links','activity','stats']],School:['🎓',['welcome','clock','calendar','todo','notes','timer']],Coding:['💻',['welcome','clock','links','notes','todo','activity']],Creative:['🎨',['welcome','clock','notes','links','activity']],Personal:['🏠',['welcome','clock','links','notes','calendar','activity','todo']],'Blank Space':['✨',['welcome']]};
+const WK={Gaming:'cyber',School:'blue',Coding:'midnight',Creative:'aurora',Personal:'purple','Blank Space':'minimal'};
+let U,S,tab=0,anim=true,timers={},cmdSel=0,saveT,drag;
+const cur=()=>S.spaces.find(s=>s.id===S.active)||S.spaces[0];
+const space=(n)=>({id:id(),name:n,icon:TPL[n]?.[0]||'✨',wall:WK[n]||'midnight',widgets:(TPL[n]?.[1]||['welcome']).map(mk)});
+const fresh=()=>({onboarded:false,prefs:{acc:'#4f8cff',r:18,blur:22,anim:true,vis:true,actvis:true,notif:true},profile:{bio:''},spaces:[],active:null,notes:[],todos:[],bms:[{id:id(),t:'GitHub',u:'https://github.com',f:'Coding'},{id:id(),t:'YouTube',u:'https://youtube.com',f:'General'}],games:[],events:[],activity:[],notifs:[{id:id(),t:'Welcome to Nexora — your space, your stuff.',r:0}]});
+const log=t=>{S.activity.unshift({t,d:Date.now()});S.activity=S.activity.slice(0,30)};
+function save(){clearTimeout(saveT);saveT=setTimeout(async()=>{try{await setDoc(doc(db,'users',U.uid),{state:JSON.stringify(S),updated:Date.now()});}catch(e){toast('Save failed: '+e.code)}},500)}
+function toast(m){const t=document.createElement('div');t.className='md';t.style.cssText='position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:50;padding:10px 18px';t.textContent=m;document.body.append(t);setTimeout(()=>t.remove(),3000)}
+const wall=sp=>sp.wall?.startsWith('c:')?sp.wall.slice(2):sp.wall?.startsWith('u:')?`url(${sp.wall.slice(2)}) center/cover`:WALLS[sp.wall]||WALLS.midnight;
+const ago=d=>{const m=Math.round((Date.now()-d)/6e4);return m<1?'just now':m<60?m+'m ago':m<1440?Math.round(m/60)+'h ago':Math.round(m/1440)+'d ago'};
+
+/* ---------- auth (sign-in only) ---------- */
+let aerr='';
+function renderAuth(){$('#app').innerHTML=`<div class="auth"><form class="md in" id="af"><div class="logo" style="font-size:28px;text-align:center">NEXORA</div><p class="mu" style="text-align:center">Your space. Your stuff.</p>`
++`<input name="e" type="email" placeholder="Email" required><input name="p" type="password" placeholder="Password (6+ chars)" required minlength="6">`
++`<div class="err">${esc(aerr)}</div><button class="pri">Sign in</button></form></div>`;
+$('#af').onsubmit=async e=>{e.preventDefault();const f=new FormData(e.target),em=f.get('e'),pw=f.get('p');aerr='';try{await signInWithEmailAndPassword(auth,em,pw)}catch(x){aerr=x.code?.replace('auth/','').replace(/-/g,' ')||'Something went wrong'}if(aerr)renderAuth()}}
+onAuthStateChanged(auth,async u=>{U=u;if(!u){S=null;return renderAuth()}
+$('#app').innerHTML='<div class="auth"><div class="spin"></div></div>';
+try{const s=await Promise.race([getDoc(doc(db,'users',u.uid)),new Promise((_,j)=>setTimeout(()=>j({code:'timeout',message:'Firestore did not respond in 10s — is the Firestore database created (Build → Firestore Database → Create database)?'}),10000))]);S=s.exists()?JSON.parse(s.data().state):fresh()}catch(e){$('#app').innerHTML=`<div class="auth"><div class="md"><h2>Couldn't load your data</h2><p class="err">${esc(e.code||e.message)}</p><p class="mu">Check that Firestore is enabled and the security rules are published.</p><button data-a="signout">Sign out</button></div></div>`;return}
+try{anim=S.prefs.anim;applyPrefs();if(!S.spaces.length)S.onboarded=false;render()}catch(e){$('#app').innerHTML=`<div class="auth"><div class="md"><h2>Something broke</h2><p class="err">${esc(e.message)}</p><button data-a="signout">Sign out</button></div></div>`}});
+
+function applyPrefs(){const r=document.documentElement.style,p=S.prefs;r.setProperty('--acc',p.acc);r.setProperty('--r',p.r+'px');r.setProperty('--blur',p.blur+'px');document.body.classList.toggle('noanim',!p.anim)}
+
+/* ---------- widgets ---------- */
+const empty=(i,t)=>`<div class="empty"><i>${i}</i>${t}</div>`;
+const W={
+welcome:()=>`<div class="big" style="font-size:28px">Hi, ${esc(U.displayName||'there')}.</div><p class="mu">This is <b style="color:var(--tx)">${esc(cur().name)}</b> — drag widgets to reorder, resize with ⤢, and press <kbd>Ctrl K</kbd> or <kbd>N</kbd> for the command center.${isOwner()?' <span class="owner-badge">OWNER</span>':''}</p><div class="row"><button data-a="lib">+ Add widget</button><button data-a="cust">Customize</button>${isOwner()?'<button data-a="owner">👑 Owner panel</button>':''}</div>`,
+clock:()=>`<div class="big" data-clock>${new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}</div><div class="mu">${new Date().toLocaleDateString([],{weekday:'long',month:'long',day:'numeric'})}</div>`,
+notes:(w)=>{const q=(w.q||'').toLowerCase(),l=[...S.notes].filter(n=>(n.t+n.b).toLowerCase().includes(q)).sort((a,b)=>b.p-a.p||b.u-a.u),n=S.notes.find(x=>x.id===w.sel);
+return `<div class="row"><input data-in="nq" data-w="${w.id}" placeholder="Search notes" value="${esc(w.q||'')}"><button data-a="notenew" data-w="${w.id}">+ New</button></div>`+(n?`<input data-in="nt" data-n="${n.id}" value="${esc(n.t)}" placeholder="Title"><textarea data-in="nb" data-n="${n.id}" rows="5" placeholder="Start writing… (autosaves)">${esc(n.b)}</textarea><div class="row"><button data-a="noteback" data-w="${w.id}">← Back</button><button data-a="notepin" data-n="${n.id}">${n.p?'Unpin':'📌 Pin'}</button><button data-a="notedel" data-n="${n.id}" data-w="${w.id}">Delete</button></div>`:l.length?l.map(n=>`<div class="li" data-a="notesel" data-n="${n.id}" data-w="${w.id}" style="cursor:pointer">${n.p?'📌':'📝'}<span>${esc(n.t||'Untitled')}</span></div>`).join(''):empty('📝','No notes yet. Create your first one.'))},
+todo:()=>`<input data-in="todoadd" placeholder="Add a task, press Enter">`+(S.todos.length?S.todos.map(t=>`<div class="li"><input type="checkbox" style="width:auto" data-a="todotog" data-n="${t.id}" ${t.d?'checked':''}><span style="${t.d?'text-decoration:line-through;opacity:.5':''}">${esc(t.t)}</span><button class="x" data-a="tododel" data-n="${t.id}">✕</button></div>`).join(''):empty('✅','All clear. Nothing to do.')),
+links:(w)=>{const q=(w.q||'').toLowerCase(),l=S.bms.filter(b=>(b.t+b.f).toLowerCase().includes(q));const fs=[...new Set(l.map(b=>b.f||'General'))];
+return `<div class="row"><input data-in="bq" data-w="${w.id}" placeholder="Search bookmarks" value="${esc(w.q||'')}"></div><div class="row"><input id="bt" placeholder="Title"><input id="bu" placeholder="https://…"><input id="bf" placeholder="Folder"><button data-a="bmadd">Add</button></div>`+(fs.length?fs.map(f=>`<div class="cat">${esc(f)}</div>`+l.filter(b=>(b.f||'General')==f).map(b=>`<div class="li" draggable="true" data-bm="${b.id}"><a href="${esc(b.u)}" target="_blank" rel="noopener">🔗 ${esc(b.t)}</a><button class="x" data-a="bmdel" data-n="${b.id}">✕</button></div>`).join('')).join(''):empty('🔖','No bookmarks match.'))},
+games:()=>`<div class="row"><input id="gn" placeholder="Name"><input id="gi" placeholder="Icon emoji" style="max-width:90px"><input id="gu" placeholder="URL"><input id="gc" placeholder="Category"><button data-a="gameadd">Add</button></div>`+(S.games.length?`<div class="gm">${S.games.map(g=>`<a href="${esc(g.u)}" target="_blank" rel="noopener" data-a="gameopen" data-n="${g.id}"><i>${esc(g.i||'🎮')}</i><b>${esc(g.n)}</b><div class="mu" style="font-size:12px">${esc(g.c||'')}</div><span class="x" data-a="gamedel" data-n="${g.id}">remove</span></a>`).join('')}</div>`:empty('🎮','Your library is empty. Add your first game above.')),
+calendar:(w)=>{const d=new Date(),y=d.getFullYear(),m=d.getMonth(),f=new Date(y,m,1).getDay(),n=new Date(y,m+1,0).getDate();let c='';for(let i=0;i<f;i++)c+='<div></div>';
+for(let i=1;i<=n;i++){const k=`${y}-${String(m+1).padStart(2,'0')}-${String(i).padStart(2,'0')}`,e=S.events.find(x=>x.d==k);c+=`<div class="${i==d.getDate()?'t':''} ${e?'e':''}" style="${e?'--ec:'+e.c:''}">${i}</div>`}
+const up=[...S.events].sort((a,b)=>a.d>b.d?1:-1).slice(0,5);
+return `<div class="mu">${d.toLocaleString([],{month:'long',year:'numeric'})}</div><div class="cal">${c}</div><div class="row"><input id="et" placeholder="Event"><input id="ed" type="date" style="max-width:150px"><input id="ec" type="color" value="#7c3aed" style="max-width:48px;padding:2px"><button data-a="evadd">Add</button></div>`+up.map(e=>`<div class="li"><span style="color:${e.c}">●</span><span>${esc(e.t)} <small class="mu">${e.d}</small></span><button class="x" data-a="evdel" data-n="${e.id}">✕</button></div>`).join('')},
+timer:(w)=>{const t=timers[w.id];return `<div class="big" data-timer="${w.id}">${t?fmt(t.left):'25:00'}</div><div class="row"><button data-a="timer" data-w="${w.id}">${t?.run?'Pause':'Start'}</button><button data-a="timerreset" data-w="${w.id}">Reset</button></div>`},
+activity:()=>S.activity.length?S.activity.slice(0,8).map(a=>`<div class="li"><span>${esc(a.t)}</span><small class="mu">${ago(a.d)}</small></div>`).join(''):empty('⚡','Your activity will show up here.'),
+stats:()=>`<div class="row" style="text-align:center">${[['Spaces',S.spaces.length],['Notes',S.notes.length],['Games',S.games.length],['Links',S.bms.length]].map(([a,b])=>`<div><div class="big" style="font-size:28px">${b}</div><div class="mu">${a}</div></div>`).join('')}</div>`};
+const fmt=s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
+setInterval(()=>{document.querySelectorAll('[data-clock]').forEach(e=>e.textContent=new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'}));for(const k in timers){const t=timers[k];if(t.run&&--t.left<=0){t.run=false;t.left=1500;S.notifs.unshift({id:id(),t:'Timer finished ⏱️',r:0});save();render()}const e=document.querySelector(`[data-timer="${k}"]`);if(e)e.textContent=fmt(t.left)}},1000);
+
+/* ---------- main render ---------- */
+function render(){if(!S||!U)return;if(!S.onboarded)return onboard();const sp=cur(),un=S.notifs.filter(n=>!n.r).length,a=anim;
+$('#app').innerHTML=`<div class="shell" style="background:${wall(sp)}"><header class="top"><span class="logo">NEXORA</span>${isOwner()?'<span class="owner-badge">OWNER</span>':''}<span class="sp"></span><button class="srch hm" data-a="cmd">🔍 Search or run a command… <small>Ctrl K</small></button><button data-a="cmd" class="bnm">🔍</button>${isOwner()?'<button data-a="owner" title="Owner Panel">👑</button>':''}<button data-a="notif">🔔${un?`<span class="bdg">${un}</span>`:''}</button><button data-a="set">⚙️</button><button data-a="set" title="Profile">👤 <span class="hm">${esc(U.displayName||'Me')}</span></button></header>`
++`<nav class="side">${S.spaces.map(s=>`<button class="${s.id==sp.id?'on':''}" data-a="space" data-n="${s.id}" title="${esc(s.name)}">${s.icon}</button>`).join('')}<button data-a="newspace" title="New Space">＋</button></nav>`
++`<main><div class="sps">${S.spaces.map(s=>`<button class="${s.id==sp.id?'on':''}" data-a="space" data-n="${s.id}">${s.icon} ${esc(s.name)}</button>`).join('')}<button data-a="newspace">＋</button></div>`
++`<div class="row" style="margin-bottom:12px"><h1 style="flex:1;margin:0">${sp.icon} ${esc(sp.name)}</h1><button data-a="lib">＋ Widget</button><button data-a="cust">🎨 Customize</button>${isOwner()?'<button data-a="owner">👑 Owner</button>':''}</div>`
++`<div class="grid">${sp.widgets.map((w,i)=>`<section class="w s${w.w} ${a?'in':''}" style="animation-delay:${i*50}ms" draggable="true" data-wid="${w.id}"><div class="wh"><b>${WT[w.type][0]} ${WT[w.type][1]}</b><button data-a="size" data-w="${w.id}" title="Resize">⤢</button><button data-a="rm" data-w="${w.id}" title="Remove">✕</button></div>${W[w.type](w)}</section>`).join('')||empty('🪟','This Space is empty. Add your first widget.')}</div></main>`
++`<nav class="bn"><button class="on" data-a="space" data-n="${sp.id}">🏠</button><button data-a="cmd">🔍</button><button data-a="lib">＋</button>${isOwner()?'<button data-a="owner">👑</button>':''}<button data-a="notif">🔔${un?`<span class="bdg">${un}</span>`:''}</button><button data-a="set">⚙️</button></nav></div>`;anim=false}
+
+function onboard(){$('#app').innerHTML=`<div class="auth"><div class="md in" style="width:min(640px,100%)"><div class="logo" style="text-align:center">NEXORA</div><h1 style="text-align:center;margin:0">Welcome to Nexora</h1><p class="mu" style="text-align:center">Build your own digital space. What will you use it for?</p><div class="opt">${Object.keys(TPL).map(k=>`<button data-a="tpl" data-n="${k}">${TPL[k][0]}<br>${k}</button>`).join('')}</div></div></div>`}
+
+/* ---------- modals ---------- */
+function modal(h,wide){close();const o=document.createElement('div');o.className='ov';o.id='ov';o.innerHTML=`<div class="md" ${wide?'style="width:min(720px,100%)"':''}>${h}</div>`;o.onclick=e=>{if(e.target==o)close()};document.body.append(o);return o}
+const close=()=>$('#ov')?.remove();
+function lib(){modal(`<h2>Widget library</h2><div class="opt">${Object.entries(WT).map(([k,v])=>`<button data-a="add" data-n="${k}">${v[0]}<br>${v[1]}</button>`).join('')}</div>`)}
+function cust(){const sp=cur(),p=S.prefs;modal(`<h2>Customize ${esc(sp.name)}</h2><div class="cat">Wallpaper</div><div class="opt">${Object.keys(WALLS).map(k=>`<button class="sw ${sp.wall==k?'on':''}" style="background:${WALLS[k]}" data-a="wall" data-n="${k}" title="${k}"></button>`).join('')}</div>`
++`<div class="row"><input type="color" id="wc" value="#1a1030" style="max-width:56px;padding:2px"><button data-a="wallc">Solid color</button><input id="wu" placeholder="Image URL"><button data-a="wallu">Use</button></div>`
++`<div class="cat">Name &amp; icon</div><div class="row"><input id="sn" value="${esc(sp.name)}"><input id="si" value="${sp.icon}" style="max-width:70px"><button data-a="spsave">Save</button><button data-a="spdel">Delete Space</button></div>`
++`<div class="cat">Theme</div><label>Accent <input type="color" data-pref="acc" value="${p.acc}" style="width:60px;padding:2px"></label><label>Corner radius <input type="range" data-pref="r" min="6" max="32" value="${p.r}"></label><label>Blur <input type="range" data-pref="blur" min="0" max="40" value="${p.blur}"></label><label><input type="checkbox" data-pref="anim" ${p.anim?'checked':''} style="width:auto"> Animations</label>`)}
+function notif(){S.notifs.forEach(n=>n.r=1);save();modal(`<h2>Notifications</h2>`+(S.notifs.length?S.notifs.slice(0,20).map(n=>`<div class="li"><span>${esc(n.t)}</span></div>`).join(''):empty('🔔','You are all caught up.'))+`<button data-a="clearn">Clear all</button>`);render()}
+function settings(){const p=S.prefs;modal(`<h2>Settings &amp; profile</h2><div class="cat">Profile</div><input id="un" value="${esc(U.displayName||'')}" placeholder="Username"><textarea id="bio" rows="2" placeholder="Bio">${esc(S.profile.bio)}</textarea><div class="mu">${esc(U.email)} · joined ${new Date(U.metadata.creationTime).toLocaleDateString()}</div><button data-a="prof">Save profile</button>`
++`<div class="cat">Preferences</div><label>Default Space <select id="ds">${S.spaces.map(s=>`<option value="${s.id}" ${s.id==S.active?'selected':''}>${esc(s.name)}</option>`).join('')}</select></label>`
++`<label><input type="checkbox" data-pref="vis" ${p.vis?'checked':''} style="width:auto"> Public profile</label><label><input type="checkbox" data-pref="actvis" ${p.actvis?'checked':''} style="width:auto"> Show activity on profile</label><label><input type="checkbox" data-pref="notif" ${p.notif?'checked':''} style="width:auto"> Notifications</label><label><input type="checkbox" data-pref="anim" ${p.anim?'checked':''} style="width:auto"> Animations</label>`
++`<div class="cat">Account</div><div class="row"><button data-a="cust">Theme</button><button data-a="signout">Sign out</button><button data-a="delacct" style="color:#fca5a5">Delete account</button></div>`
++(isOwner()?'<div class="cat">Owner</div><button data-a="owner">👑 Open Owner Panel</button>':''))}
+function newSpace(){modal(`<h2>New Space</h2><div class="opt">${Object.keys(TPL).map(k=>`<button data-a="mkspace" data-n="${k}">${TPL[k][0]}<br>${k}</button>`).join('')}</div>`)}
+
+/* ---------- OWNER PANEL ---------- */
+function ownerPanel(){
+  if(!isOwner()){toast('Owner access only');return}
+  const size=JSON.stringify(S).length;
+  const sizeKb=(size/1024).toFixed(1);
+  modal(`<h2>👑 Owner Panel <span class="owner-badge">greyson.kurit</span></h2>
+<p class="mu">Full control over this Nexora instance. Changes are live and saved to Firestore.</p>
+
+<div class="cat">User management</div>
+<div class="row">
+<input id="own-new-email" type="email" placeholder="New user email">
+<input id="own-new-pass" type="password" placeholder="Password (6+ chars)" minlength="6">
+<input id="own-new-name" placeholder="Display name (optional)" style="max-width:140px">
+<button data-a="own-createuser" class="pri">Create account</button>
+</div>
+<p class="mu" style="font-size:12px;margin-top:-4px">Creates a new Firebase Auth account. You stay logged in as owner.</p>
+
+<div class="row">
+<input id="own-reset-email" type="email" placeholder="User email to reset">
+<button data-a="own-sendreset">Send password-reset email</button>
+</div>
+<p class="mu" style="font-size:12px;margin-top:-4px">Firebase will email them a link to set a new password. (Client SDK cannot directly set another user's password.)</p>
+
+<div class="row">
+<input id="own-my-old" type="password" placeholder="Your current password">
+<input id="own-my-new" type="password" placeholder="Your new password (6+)">
+<button data-a="own-changemypass">Change my password</button>
+</div>
+
+<div class="cat">Data &amp; Backup</div>
+<div class="owner-grid">
+<button data-a="own-export"><b>Export JSON</b><span>Download full state backup</span></button>
+<button data-a="own-import"><b>Import JSON</b><span>Restore from a backup file</span></button>
+<button data-a="own-viewraw"><b>View raw state</b><span>${sizeKb} KB currently stored</span></button>
+<button data-a="own-forcesave"><b>Force save now</b><span>Write state to Firestore immediately</span></button>
+</div>
+
+<div class="cat">Bulk actions</div>
+<div class="owner-grid">
+<button data-a="own-clearnotes"><b>Clear all notes</b><span>${S.notes.length} notes</span></button>
+<button data-a="own-cleartodos"><b>Clear all to-dos</b><span>${S.todos.length} tasks</span></button>
+<button data-a="own-clearbms"><b>Clear bookmarks</b><span>${S.bms.length} links</span></button>
+<button data-a="own-cleargames"><b>Clear games</b><span>${S.games.length} games</span></button>
+<button data-a="own-clearevents"><b>Clear events</b><span>${S.events.length} events</span></button>
+<button data-a="own-clearact"><b>Clear activity</b><span>${S.activity.length} entries</span></button>
+<button data-a="own-clearnotifs"><b>Clear notifications</b><span>${S.notifs.length} items</span></button>
+<button data-a="own-addallwidgets"><b>Add every widget</b><span>Inject all widget types into current space</span></button>
+</div>
+
+<div class="cat">Spaces</div>
+<div class="owner-grid">
+<button data-a="own-dupspace"><b>Duplicate current space</b><span>Clone “${esc(cur().name)}”</span></button>
+<button data-a="own-nukeempty"><b>Delete empty spaces</b><span>Remove spaces with 0 widgets</span></button>
+<button data-a="own-resetspaces"><b>Reset to templates</b><span>Replace all spaces with defaults</span></button>
+</div>
+
+<div class="cat">Danger zone</div>
+<div class="owner-grid">
+<button class="danger" data-a="own-factory"><b>Factory reset</b><span>Wipe everything back to first-run state</span></button>
+<button class="danger" data-a="own-delacct"><b>Delete account + data</b><span>Permanent. Requires recent login.</span></button>
+</div>
+
+<div class="cat">Quick inject</div>
+<div class="row">
+<input id="own-note-t" placeholder="Quick note title">
+<input id="own-note-b" placeholder="Body">
+<button data-a="own-quicknote">Add note</button>
+</div>
+<div class="row">
+<input id="own-bm-t" placeholder="Bookmark title">
+<input id="own-bm-u" placeholder="https://…">
+<button data-a="own-quickbm">Add bookmark</button>
+</div>
+<div class="row">
+<input id="own-game-n" placeholder="Game name">
+<input id="own-game-u" placeholder="URL">
+<button data-a="own-quickgame">Add game</button>
+</div>
+`,true)
+}
+
+function ownExport(){
+  const blob=new Blob([JSON.stringify(S,null,2)],{type:'application/json'});
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download=`nexora-backup-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  toast('Backup downloaded');
+  log('Owner exported data');
+}
+
+function ownImport(){
+  const inp=document.createElement('input');
+  inp.type='file';inp.accept='.json,application/json';
+  inp.onchange=async()=>{
+    const file=inp.files[0];if(!file)return;
+    try{
+      const text=await file.text();
+      const data=JSON.parse(text);
+      if(!data.spaces||!Array.isArray(data.spaces))throw new Error('Invalid backup format');
+      if(!confirm('Replace ALL current data with this backup? This cannot be undone.'))return;
+      S=data;
+      if(!S.active&&S.spaces[0])S.active=S.spaces[0].id;
+      save();render();close();
+      toast('Backup restored');
+      log('Owner imported data');
+    }catch(e){toast('Import failed: '+e.message)}
+  };
+  inp.click();
+}
+
+function ownViewRaw(){
+  modal(`<h2>Raw state</h2><pre class="raw">${esc(JSON.stringify(S,null,2))}</pre><button data-a="owner">← Back to panel</button>`,true)
+}
+
+/* ---------- command center ---------- */
+function items(q){q=q.toLowerCase();const a=[];
+const add=(c,t,f)=>{if(!q||t.toLowerCase().includes(q))a.push({c,t,f})};
+add('Actions','Create new space',newSpace);add('Actions','Add widget',lib);add('Actions','Change wallpaper',cust);add('Actions','Create note',()=>{S.notes.unshift({id:id(),t:'',b:'',p:0,u:Date.now()});log('Created a note');save();render()});add('Actions','Open notifications',notif);add('Actions','Sign out',()=>signOut(auth));
+if(isOwner()){add('Owner','Open owner panel',ownerPanel);add('Owner','Export data',ownExport);add('Owner','Force save',()=>{save();toast('Forced save')})}
+S.spaces.forEach(s=>add('Spaces','Open '+s.name+' space',()=>go(s.id)));
+add('Settings','Open settings',settings);add('Settings','Customize theme',cust);
+S.notes.forEach(n=>add('Notes','Note: '+(n.t||'Untitled'),()=>{const w=cur().widgets.find(x=>x.type=='notes');if(w){w.sel=n.id;render()}}));
+S.bms.forEach(b=>add('Bookmarks',b.t,()=>open(b.u,'_blank','noopener')));S.games.forEach(g=>add('Games',g.n,()=>open(g.u,'_blank','noopener')));
+Object.entries(WT).forEach(([k,v])=>add('Widgets','Add '+v[1]+' widget',()=>addW(k)));return a}
+let ci=[];function cmd(){const o=modal(`<input id="cq" placeholder="Type a command, space, note, bookmark…" autocomplete="off"><div id="cr"></div>`);const q=$('#cq');q.focus();cmdSel=0;const draw=()=>{ci=items(q.value).slice(0,12);let last='';$('#cr').innerHTML=ci.length?ci.map((x,i)=>(x.c!=last?`<div class="cat">${last=x.c}</div>`:'')+`<div class="cr ${i==cmdSel?'sel':''}" data-ci="${i}">${esc(x.t)}</div>`).join(''):empty('🔎','No results.')};draw();q.oninput=()=>{cmdSel=0;draw()};
+q.onkeydown=e=>{if(e.key=='ArrowDown'){cmdSel=Math.min(cmdSel+1,ci.length-1);draw();e.preventDefault()}else if(e.key=='ArrowUp'){cmdSel=Math.max(cmdSel-1,0);draw();e.preventDefault()}else if(e.key=='Enter'&&ci[cmdSel]){const f=ci[cmdSel].f;close();f()}}}
+
+/* ---------- actions ---------- */
+const go=i=>{S.active=i;anim=true;close();save();render()};
+function addW(t){cur().widgets.push(mk(t));log('Added a new widget');save();close();anim=true;render()}
+const val=i=>$('#'+i)?.value.trim();
+async function act(a,d,el){const sp=S?.spaces&&cur(),L=()=>{save();render()};
+switch(a){
+case'signout':close();return signOut(auth);
+case'cmd':return cmd();case'lib':return lib();case'cust':return cust();case'notif':return notif();case'set':return settings();case'newspace':return newSpace();case'space':return go(d.n);
+case'owner':return ownerPanel();
+case'tpl':{const sp2=space(d.n);S.spaces=[sp2];S.active=sp2.id;S.onboarded=true;log('Created your '+d.n+' Space');anim=true;return L()}
+case'mkspace':{const s=space(d.n);s.name=d.n=='Blank Space'?'New Space':d.n;S.spaces.push(s);S.active=s.id;log('Added a new Space: '+s.name);S.notifs.unshift({id:id(),t:'Space "'+s.name+'" created',r:0});close();anim=true;return L()}
+case'add':return addW(d.n);case'rm':sp.widgets=sp.widgets.filter(w=>w.id!=d.w);log('Removed a widget');return L();
+case'size':{const w=sp.widgets.find(x=>x.id==d.w);w.w=w.w==1?2:1;return L()}
+case'wall':sp.wall=d.n;log('Updated your '+sp.name+' Space');save();return render()&cust();
+case'wallc':sp.wall='c:'+$('#wc').value;save();return render()&cust();case'wallu':if(val('wu')){sp.wall='u:'+val('wu');save();render();cust()}return;
+case'spsave':sp.name=val('sn')||sp.name;sp.icon=val('si')||sp.icon;close();return L();
+case'spdel':if(S.spaces.length<2)return toast('Keep at least one Space');if(confirm('Delete this Space?')){S.spaces=S.spaces.filter(s=>s!=sp);S.active=S.spaces[0].id;close();L()}return;
+case'clearn':S.notifs=[];close();return L();
+case'notenew':{const n={id:id(),t:'',b:'',p:0,u:Date.now()};S.notes.unshift(n);sp.widgets.find(w=>w.id==d.w).sel=n.id;log('Created a note');return L()}
+case'notesel':sp.widgets.find(w=>w.id==d.w).sel=d.n;return render();case'noteback':sp.widgets.find(w=>w.id==d.w).sel=null;return render();
+case'notepin':{const n=S.notes.find(x=>x.id==d.n);n.p=n.p?0:1;return L()}case'notedel':S.notes=S.notes.filter(n=>n.id!=d.n);sp.widgets.forEach(w=>w.sel=null);return L();
+case'todotog':{const t=S.todos.find(x=>x.id==d.n);t.d=!t.d;return L()}case'tododel':S.todos=S.todos.filter(t=>t.id!=d.n);return L();
+case'bmadd':{let u=val('bu');if(!val('bt')||!u)return toast('Add a title and URL');if(!/^https?:/.test(u))u='https://'+u;S.bms.push({id:id(),t:val('bt'),u,f:val('bf')||'General'});log('Added a bookmark');return L()}case'bmdel':S.bms=S.bms.filter(b=>b.id!=d.n);return L();
+case'gameadd':{let u=val('gu');if(!val('gn')||!u)return toast('Add a name and URL');if(!/^https?:/.test(u))u='https://'+u;S.games.push({id:id(),n:val('gn'),i:val('gi'),u,c:val('gc')});log('Added a game: '+val('gn'));return L()}
+case'gamedel':return S.games=S.games.filter(g=>g.id!=d.n),L();
+case'evadd':if(!val('et')||!val('ed'))return toast('Add a title and date');S.events.push({id:id(),t:val('et'),d:val('ed'),c:val('ec')});log('Added an event');return L();case'evdel':S.events=S.events.filter(e=>e.id!=d.n);return L();
+case'timer':{const t=timers[d.w]||(timers[d.w]={left:1500});t.run=!t.run;return render()}case'timerreset':delete timers[d.w];return render();
+case'prof':{await updateProfile(U,{displayName:val('un')||U.displayName});S.profile.bio=$('#bio').value;log('Updated your profile');close();return L()}
+case'delacct':if(!confirm('Permanently delete your account and all data?'))return;try{await deleteDoc(doc(db,'users',U.uid));await deleteUser(U)}catch(e){toast(e.code=='auth/requires-recent-login'?'Please sign in again, then retry':e.code)}return;
+
+/* owner actions — user management */
+case'own-createuser':{
+  const email=val('own-new-email'),pass=val('own-new-pass'),name=val('own-new-name');
+  if(!email||!pass)return toast('Email and password required');
+  if(pass.length<6)return toast('Password must be at least 6 characters');
+  try{
+    const cred=await createUserWithEmailAndPassword(adminAuth,email,pass);
+    if(name)await updateProfile(cred.user,{displayName:name});
+    await signOut(adminAuth);
+    toast('Account created: '+email);
+    log('Owner created account: '+email);
+    close();ownerPanel();
+  }catch(e){toast(e.code?.replace('auth/','').replace(/-/g,' ')||e.message)}
+  return;
+}
+case'own-sendreset':{
+  const email=val('own-reset-email');
+  if(!email)return toast('Enter an email');
+  try{
+    await sendPasswordResetEmail(auth,email);
+    toast('Password-reset email sent to '+email);
+    log('Owner sent reset to '+email);
+  }catch(e){toast(e.code?.replace('auth/','').replace(/-/g,' ')||e.message)}
+  return;
+}
+case'own-changemypass':{
+  const oldP=val('own-my-old'),newP=val('own-my-new');
+  if(!oldP||!newP)return toast('Enter current and new password');
+  if(newP.length<6)return toast('New password must be at least 6 characters');
+  try{
+    const cred=EmailAuthProvider.credential(U.email,oldP);
+    await reauthenticateWithCredential(U,cred);
+    await updatePassword(U,newP);
+    toast('Your password was changed');
+    log('Owner changed own password');
+    close();ownerPanel();
+  }catch(e){toast(e.code=='auth/wrong-password'||e.code=='auth/invalid-credential'?'Current password is wrong':(e.code?.replace('auth/','').replace(/-/g,' ')||e.message))}
+  return;
+}
+case'own-export':return ownExport();
+case'own-import':return ownImport();
+case'own-viewraw':return ownViewRaw();
+case'own-forcesave':clearTimeout(saveT);try{await setDoc(doc(db,'users',U.uid),{state:JSON.stringify(S),updated:Date.now()});toast('Saved');log('Owner forced save')}catch(e){toast('Save failed: '+e.code)}return;
+case'own-clearnotes':if(confirm(`Delete all ${S.notes.length} notes?`)){S.notes=[];log('Owner cleared notes');L();close();ownerPanel()}return;
+case'own-cleartodos':if(confirm(`Delete all ${S.todos.length} to-dos?`)){S.todos=[];log('Owner cleared todos');L();close();ownerPanel()}return;
+case'own-clearbms':if(confirm(`Delete all ${S.bms.length} bookmarks?`)){S.bms=[];log('Owner cleared bookmarks');L();close();ownerPanel()}return;
+case'own-cleargames':if(confirm(`Delete all ${S.games.length} games?`)){S.games=[];log('Owner cleared games');L();close();ownerPanel()}return;
+case'own-clearevents':if(confirm(`Delete all ${S.events.length} events?`)){S.events=[];log('Owner cleared events');L();close();ownerPanel()}return;
+case'own-clearact':S.activity=[];log('Owner cleared activity');L();close();ownerPanel();return;
+case'own-clearnotifs':S.notifs=[];L();close();ownerPanel();return;
+case'own-addallwidgets':{Object.keys(WT).forEach(t=>cur().widgets.push(mk(t)));log('Owner added all widgets');L();close();return}
+case'own-dupspace':{const clone=JSON.parse(JSON.stringify(cur()));clone.id=id();clone.name=cur().name+' (copy)';clone.widgets.forEach(w=>w.id=id());S.spaces.push(clone);S.active=clone.id;log('Owner duplicated space');L();close();return}
+case'own-nukeempty':{const before=S.spaces.length;S.spaces=S.spaces.filter(s=>s.widgets.length>0);if(!S.spaces.length){const blank=space('Blank Space');S.spaces=[blank];S.active=blank.id}else if(!S.spaces.find(s=>s.id===S.active))S.active=S.spaces[0].id;toast(`Removed ${before-S.spaces.length} empty space(s)`);log('Owner removed empty spaces');L();close();ownerPanel();return}
+case'own-resetspaces':if(!confirm('Replace ALL spaces with the default templates? Current spaces will be lost.'))return;S.spaces=Object.keys(TPL).map(n=>space(n));S.active=S.spaces[0].id;log('Owner reset spaces to templates');L();close();return;
+case'own-factory':if(!confirm('FACTORY RESET: wipe notes, todos, bookmarks, games, events, activity, notifications and all spaces back to first-run state?'))return;if(!confirm('Really sure? This cannot be undone.'))return;S=fresh();S.onboarded=false;log('Owner performed factory reset');save();render();close();return;
+case'own-delacct':if(!confirm('Permanently delete your account and all data?'))return;try{await deleteDoc(doc(db,'users',U.uid));await deleteUser(U)}catch(e){toast(e.code=='auth/requires-recent-login'?'Please sign in again, then retry':e.code)}return;
+case'own-quicknote':{const t=val('own-note-t')||'Untitled',b=val('own-note-b')||'';S.notes.unshift({id:id(),t,b,p:0,u:Date.now()});log('Owner quick-added note');L();close();ownerPanel();return}
+case'own-quickbm':{let u=val('own-bm-u');if(!val('own-bm-t')||!u)return toast('Need title + URL');if(!/^https?:/.test(u))u='https://'+u;S.bms.push({id:id(),t:val('own-bm-t'),u,f:'General'});log('Owner quick-added bookmark');L();close();ownerPanel();return}
+case'own-quickgame':{let u=val('own-game-u');if(!val('own-game-n')||!u)return toast('Need name + URL');if(!/^https?:/.test(u))u='https://'+u;S.games.push({id:id(),n:val('own-game-n'),i:'🎮',u,c:''});log('Owner quick-added game');L();close();ownerPanel();return}
+}}
+document.addEventListener('click',e=>{const el=e.target.closest('[data-a]');if(el){if(el.tagName=='A'&&el.dataset.a=='gameopen'&&e.target.closest('[data-a=gamedel]'))e.preventDefault();const t=e.target.closest('[data-a]');return act(t.dataset.a,t.dataset,t)}const c=e.target.closest('[data-ci]');if(c){const f=ci[+c.dataset.ci].f;close();f()}});
+document.addEventListener('input',e=>{const t=e.target,d=t.dataset;if(d.pref){S.prefs[d.pref]=t.type=='checkbox'?t.checked:t.type=='color'?t.value:+t.value;applyPrefs();save();return}
+if(d.in=='nt'||d.in=='nb'){const n=S.notes.find(x=>x.id==d.n);n[d.in=='nt'?'t':'b']=t.value;n.u=Date.now();save()}
+if(t.id=='ds'){S.active=t.value;save()}});
+document.addEventListener('change',e=>{if(e.target.id=='ds'){S.active=e.target.value;save();render()}});
+document.addEventListener('keydown',e=>{const t=e.target,d=t.dataset;if(e.key=='Enter'&&d.in){if(d.in=='todoadd'&&t.value.trim()){S.todos.push({id:id(),t:t.value.trim(),d:0});log('Added a to-do');save();render()}else if(d.in=='nq'||d.in=='bq'){const w=cur().widgets.find(x=>x.id==d.w);w.q=t.value;render()}}
+if(e.key=='Escape')close();if(!S||!S.onboarded)return;const typing=/INPUT|TEXTAREA|SELECT/.test(t.tagName);
+if((e.key=='k'&&(e.ctrlKey||e.metaKey))||(e.key=='n'&&!typing&&!e.ctrlKey&&!e.metaKey)){e.preventDefault();cmd()}});
+document.addEventListener('dragstart',e=>{drag=e.target.closest?.('[data-wid]')?.dataset.wid||null;if(drag)e.target.closest('[data-wid]').classList.add('drag')});
+document.addEventListener('dragover',e=>{if(drag&&e.target.closest?.('[data-wid]'))e.preventDefault()});
+document.addEventListener('drop',e=>{const to=e.target.closest?.('[data-wid]')?.dataset.wid;if(drag&&to&&to!=drag){const w=cur().widgets,a=w.findIndex(x=>x.id==drag),b=w.findIndex(x=>x.id==to);w.splice(b,0,w.splice(a,1)[0]);save();render()}drag=null});
+document.addEventListener('dragend',()=>{drag=null;document.querySelectorAll('.drag').forEach(x=>x.classList.remove('drag'))});
+</script></body></html>
